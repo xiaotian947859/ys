@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>影视磁力搜索API文档</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding-top: 2rem; }
+        .movie-card { margin-bottom: 1rem; }
+        .magnet-link { word-break: break-all; }
+        pre { background-color: #f8f9fa; padding: 1rem; border-radius: 0.25rem; }
+        .loading { display: none; }
+        #searchResults { margin-top: 2rem; }
+        .api-section { margin-bottom: 2rem; }
+        .endpoint { color: #2196F3; }
+        .param-table { margin: 1rem 0; }
+        .response-example { margin-top: 1rem; }
+        .code-block { 
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">影视磁力搜索API</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="api-section">
+                    <h2>API文档</h2>
+                    
+                    <div class="mb-4">
+                        <h3>基本信息</h3>
+                        <p>本API提供影视作品搜索和磁力链接获取服务。所有API响应均为JSON格式。</p>
+                        <div class="code-block">
+                            <strong>基础URL:</strong> http://localhost:5000
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3>搜索接口</h3>
+                        <div class="endpoint">GET /api/search</div>
+                        <p>搜索影视作品并获取相关信息，包括基本信息和磁力链接。</p>
+
+                        <h4>请求参数</h4>
+                        <table class="table param-table">
+                            <thead>
+                                <tr>
+                                    <th>参数名</th>
+                                    <th>类型</th>
+                                    <th>必选</th>
+                                    <th>说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>keyword</td>
+                                    <td>string</td>
+                                    <td>是</td>
+                                    <td>搜索关键词，如电影名称</td>
+                                </tr>
+                                <tr>
+                                    <td>page</td>
+                                    <td>integer</td>
+                                    <td>否</td>
+                                    <td>页码，默认为1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4>响应说明</h4>
+                        <p>返回一个影视作品数组，每个作品包含以下字段：</p>
+                        <table class="table param-table">
+                            <thead>
+                                <tr>
+                                    <th>字段</th>
+                                    <th>类型</th>
+                                    <th>说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>title</td>
+                                    <td>string</td>
+                                    <td>影视作品标题</td>
+                                </tr>
+                                <tr>
+                                    <td>year</td>
+                                    <td>string</td>
+                                    <td>发行年份</td>
+                                </tr>
+                                <tr>
+                                    <td>category</td>
+                                    <td>string</td>
+                                    <td>分类信息</td>
+                                </tr>
+                                <tr>
+                                    <td>score</td>
+                                    <td>string</td>
+                                    <td>豆瓣评分</td>
+                                </tr>
+                                <tr>
+                                    <td>imdb_score</td>
+                                    <td>string</td>
+                                    <td>IMDB评分</td>
+                                </tr>
+                                <tr>
+                                    <td>image</td>
+                                    <td>string</td>
+                                    <td>封面图片URL</td>
+                                </tr>
+                                <tr>
+                                    <td>magnet_links</td>
+                                    <td>array</td>
+                                    <td>磁力链接列表</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4>磁力链接字段说明</h4>
+                        <table class="table param-table">
+                            <thead>
+                                <tr>
+                                    <th>字段</th>
+                                    <th>类型</th>
+                                    <th>说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>filename</td>
+                                    <td>string</td>
+                                    <td>文件名</td>
+                                </tr>
+                                <tr>
+                                    <td>size</td>
+                                    <td>string</td>
+                                    <td>文件大小（带单位）</td>
+                                </tr>
+                                <tr>
+                                    <td>version</td>
+                                    <td>string</td>
+                                    <td>版本信息</td>
+                                </tr>
+                                <tr>
+                                    <td>url</td>
+                                    <td>string</td>
+                                    <td>磁力链接URL</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4>示例请求</h4>
+                        <div class="code-block">
+                            GET /api/search?keyword=阿凡达&page=1
+                        </div>
+
+                        <h4>示例响应</h4>
+                        <pre class="response-example">
+[
+    {
+        "title": "阿凡达",
+        "year": "2009",
+        "category": "科幻/动作",
+        "score": "8.7",
+        "imdb_score": "7.8",
+        "image": "https://example.com/avatar.jpg",
+        "magnet_links": [
+            {
+                "filename": "Avatar.2009.BluRay.1080p.x264",
+                "size": "12.5GB",
+                "version": "蓝光原盘",
+                "url": "magnet:?xt=urn:btih:..."
+            }
+        ]
+    }
+]</pre>
+
+                        <h4>错误响应</h4>
+                        <p>当发生错误时，API会返回相应的HTTP状态码和错误信息：</p>
+                        <table class="table param-table">
+                            <thead>
+                                <tr>
+                                    <th>状态码</th>
+                                    <th>说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>400</td>
+                                    <td>请求参数错误</td>
+                                </tr>
+                                <tr>
+                                    <td>404</td>
+                                    <td>未找到相关资源</td>
+                                </tr>
+                                <tr>
+                                    <td>500</td>
+                                    <td>服务器内部错误</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <h2>在线测试</h2>
+                <div class="mb-3">
+                    <label for="keyword" class="form-label">搜索关键词</label>
+                    <input type="text" class="form-control" id="keyword" placeholder="输入影视名称">
+                </div>
+                <div class="mb-3">
+                    <label for="page" class="form-label">页码</label>
+                    <input type="number" class="form-control" id="page" value="1" min="1">
+                </div>
+                <button class="btn btn-primary" onclick="searchMovies()">搜索</button>
+                
+                <div class="loading mt-3">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span class="ms-2">搜索中...</span>
+                </div>
+                
+                <div id="searchResults"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API配置
+        const API_CONFIG = {
+            baseUrl: window.location.origin
+        };
+
+        async function searchMovies() {
+            const keyword = document.getElementById('keyword').value.trim();
+            const page = document.getElementById('page').value;
+            const resultsDiv = document.getElementById('searchResults');
+            const loading = document.querySelector('.loading');
+            
+            if (!keyword) {
+                alert('请输入搜索关键词');
+                return;
+            }
+            
+            loading.style.display = 'block';
+            resultsDiv.innerHTML = '';
+            
+            try {
+                const response = await fetch(`${API_CONFIG.baseUrl}/api/search?keyword=${encodeURIComponent(keyword)}&page=${page}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const movies = await response.json();
+                
+                if (movies.length === 0) {
+                    resultsDiv.innerHTML = '<div class="alert alert-info">未找到相关影视作品</div>';
+                    return;
+                }
+                
+                let html = '';
+                for (const movie of movies) {
+                    html += `
+                        <div class="card movie-card">
+                            <div class="card-body">
+                                <div class="row">
+                                    ${movie.image ? `
+                                        <div class="col-md-3">
+                                            <img src="${movie.image}" class="img-fluid" alt="${movie.title}">
+                                        </div>
+                                    ` : ''}
+                                    <div class="col">
+                                        <h5 class="card-title">${movie.title}</h5>
+                                        <p class="card-text">
+                                            ${movie.year ? `年份：${movie.year}<br>` : ''}
+                                            ${movie.category ? `类别：${movie.category}<br>` : ''}
+                                            ${movie.score ? `评分：${movie.score}<br>` : ''}
+                                            ${movie.imdb_score ? `IMDB：${movie.imdb_score}` : ''}
+                                        </p>
+                                        ${movie.magnet_links && movie.magnet_links.length > 0 ? `
+                                            <h6>磁力链接：</h6>
+                                            <div class="list-group">
+                                                ${movie.magnet_links.map(link => `
+                                                    <div class="list-group-item">
+                                                        <div>文件名：${link.filename}</div>
+                                                        <div>大小：${link.size}</div>
+                                                        <div>版本：${link.version}</div>
+                                                        <div class="magnet-link">
+                                                            <a href="${link.url}" target="_blank">磁力链接</a>
+                                                        </div>
+                                                    </div>
+                                                `).join('')}
+                                            </div>
+                                        ` : '<p>暂无可用的磁力链接</p>'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+                resultsDiv.innerHTML = html;
+                
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="alert alert-danger">搜索失败：${error.message}</div>`;
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        // 添加回车键搜索支持
+        document.getElementById('keyword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchMovies();
+            }
+        });
+    </script>
+</body>
+</html> 
